@@ -1,15 +1,16 @@
 import os
 import discord
-import asyncio
+# import asyncio
 from discord.ext import commands
 from pymongo import MongoClient
 # from keep_alive import keep_alive
 from discord import app_commands
 import random
 from discord.ext import commands
-from discord.ui import Select
-from discord.ui import Button
-from discord import  SelectOption,ButtonStyle,Embed,interactions
+# from discord.ui import Select
+# from discord.ui import Button
+# from discord import  SelectOption,ButtonStyle,Embed,interactions
+from keep_alive import keep_alive
 intents = discord.Intents.default()
 
 intents.message_content = True
@@ -143,6 +144,6 @@ async def add(interaction: discord.Interaction, member: discord.Member, personal
     else:
         await interaction.response.send_message(f"personality,academic_ability,inteligence,social_contribution,activity can't be negetive nor can they be more than 100")
 
-
+keep_alive()
 
 bot.run(os.environ['TOKEN'])
