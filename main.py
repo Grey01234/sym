@@ -83,7 +83,7 @@ def create_character_card(name, personality, social_contribution, inteligence, a
     fields = [
         ("**Personality:**", personality, get_grade(personality)),
         ("**Academic Ability:**", aca, get_grade(aca)),
-        ("**Inteligence:**", inteligence, get_grade(inteligence)),
+        ("**Intelligence:**", inteligence, get_grade(inteligence)),
         ("**Activity:**", activity, get_grade(activity)),
         ("**Social contribution:**", social_contribution, get_grade(social_contribution))
     ]
