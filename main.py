@@ -83,7 +83,7 @@ def create_character_card(name, personality, social_contribution, inteligence, a
     fields = [
         ("**Personality:**", personality, get_grade(personality)),
         ("**Academic Ability:**", aca, get_grade(aca)),
-        ("**Intelligence:**", inteligence, get_grade(inteligence)),
+        ("**Inteligence:**", inteligence, get_grade(inteligence)),
         ("**Activity:**", activity, get_grade(activity)),
         ("**Social contribution:**", social_contribution, get_grade(social_contribution))
     ]
@@ -172,7 +172,7 @@ async def add(interaction: discord.Interaction, member: discord.Member, personal
             "_id": int(member.id),
             "p_name": member.name,
             "p_personality": personality,
-            "p_inteligence": inteligence,
+            "p_intelligence": inteligence,
             "p_activity": activity,
             "p_academic_ability": academic_ability,
             "p_social_contribution": social_contribution,
@@ -204,9 +204,17 @@ async def update(interaction: discord.Interaction, member: discord.Member, perso
                          if 0 < value <= 100]
 
     # Build update dictionary for integer fields
-    for value in filtered_integers:
-        update_data[f"p_{value.__class__.__name__.lower()}"] = value
-
+    
+    if 0<personality <=100:
+       update_data["p_personality"] = personality
+    if 0<inteligence <=100:
+       update_data["p_inteligence"] = inteligence
+    if 0<social_contribution <=100:
+       update_data["p_social_contribution"] = social_contribution
+    if 0<academic_ability <=100:
+       update_data["p_academic_ability"] = academic_ability
+    if 0<activity <=100:
+       update_data["p_activity"] = activity
     # Handle optional string fields (speciality and note)
     if speciality is not None:
         update_data["p_speciality"] = speciality
