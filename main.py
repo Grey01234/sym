@@ -33,23 +33,23 @@ class card_creation:
       player_id = int(input("Enter the player id: "))
       player_name = input("What is the name of your player? ")
       player_personality = input("player personality? ")
-      player_inteligence = input("player inteligence? ")
+      player_intelligence = input("player intelligence? ")
       player_activity = input("player activity? ")
       player_effort = input("player effort? ")
       player_social_contribution = input("What is the mental health of your player? ")
       player_speciality = input("player specializes in? ")
-      
+
       # Create a dictionary with the character data
       player_data = {
           "p_id": player_id,
           "p_name": player_name,
           "p_personality": player_personality,
-          "p_inteligence": player_inteligence,
+          "p_intelligence": player_intelligence,
           "p_activity": player_activity,
           "p_effort": player_effort,
           "p_social_contribution": player_social_contribution,
           "p_speciality": player_speciality
-          
+
       }
 
       # Insert the character data into the 'cards' collection
@@ -68,8 +68,8 @@ async def on_ready():
         print(" it failed!")
 
 
-def create_character_card(name, personality, social_contribution, inteligence, aca, activity, specility, avatar, note):
-    overall = int((personality + social_contribution + activity + aca + inteligence) / 5)
+def create_character_card(name, personality, social_contribution, intelligence, aca, activity, specility, avatar, note):
+    overall = int((personality + social_contribution + activity + aca + intelligence) / 5)
     grade = get_grade(overall)  # Call the get_grade function for overall score
 
     embed = discord.Embed(
@@ -83,7 +83,7 @@ def create_character_card(name, personality, social_contribution, inteligence, a
     fields = [
         ("**Personality:**", personality, get_grade(personality)),
         ("**Academic Ability:**", aca, get_grade(aca)),
-        ("**Inteligence:**", inteligence, get_grade(inteligence)),
+        ("**intelligence:**", intelligence, get_grade(intelligence)),
         ("**Activity:**", activity, get_grade(activity)),
         ("**Social contribution:**", social_contribution, get_grade(social_contribution))
     ]
@@ -134,11 +134,11 @@ def get_grade(score):
 async def find(interaction: discord.Interaction, memeber: discord.Member):
         matching_players = pl.find({"_id": memeber.id})
         try:
-        
+
             for character_data in matching_players:
                 character_name =memeber.name
                 personality = character_data["p_personality"]
-                mental= character_data["p_inteligence"]
+                mental= character_data["p_intelligence"]
                 aca= character_data["p_academic_ability"]
                 # effort = character_data["p_effort"]
                 coop = character_data.get("p_social_contribution", "Not specified")
@@ -157,12 +157,12 @@ async def find(interaction: discord.Interaction, memeber: discord.Member):
 # @app_commands.describe("add a member OAA")
 @app_commands.checks.has_any_role("Appraisers")
 async def add(interaction: discord.Interaction, member: discord.Member, personality: int,
-             inteligence: int, academic_ability: int, social_contribution: int,
+             intelligence: int, academic_ability: int, social_contribution: int,
              speciality: str, activity: int, note: str = None):
 
     try:
         # Validate integer values (0 <= value <= 100)
-        filtered_list = [value for value in [personality, academic_ability, inteligence, social_contribution, activity]
+        filtered_list = [value for value in [personality, academic_ability, intelligence, social_contribution, activity]
                          if 0 <= value <= 100]
 
         if len(filtered_list) != 5:
@@ -172,7 +172,7 @@ async def add(interaction: discord.Interaction, member: discord.Member, personal
             "_id": int(member.id),
             "p_name": member.name,
             "p_personality": personality,
-            "p_intelligence": inteligence,
+            "p_intelligence": intelligence,
             "p_activity": activity,
             "p_academic_ability": academic_ability,
             "p_social_contribution": social_contribution,
@@ -194,21 +194,21 @@ async def add(interaction: discord.Interaction, member: discord.Member, personal
 # @app_commands.describe("update a member OAA")
 @app_commands.checks.has_any_role("Appraisers")
 async def update(interaction: discord.Interaction, member: discord.Member, personality: int = 0,
-                  inteligence: int = 0, academic_ability: int = 0, social_contribution: int = 0,
+                  intelligence: int = 0, academic_ability: int = 0, social_contribution: int = 0,
                   speciality: str = None, activity: int = 0, note: str = None):
 
     update_data = {}
 
     # Filter and validate integer values (0 < value <= 100)
-    filtered_integers = [value for value in [personality, academic_ability, inteligence, social_contribution, activity]
+    filtered_integers = [value for value in [personality, academic_ability, intelligence, social_contribution, activity]
                          if 0 < value <= 100]
 
     # Build update dictionary for integer fields
-    
+
     if 0<personality <=100:
        update_data["p_personality"] = personality
-    if 0<inteligence <=100:
-       update_data["p_inteligence"] = inteligence
+    if 0<intelligence <=100:
+       update_data["p_intelligence"] = intelligence
     if 0<social_contribution <=100:
        update_data["p_social_contribution"] = social_contribution
     if 0<academic_ability <=100:
@@ -256,6 +256,6 @@ async def delete(interaction: discord.Interaction, member: discord.Member):
         print(f"Error deleting character: {e}")
         await interaction.response.send_message(f"An error occurred while deleting. Please try again later.")
 
-    
-     
+
+
 bot.run(os.environ['TOKEN'])
